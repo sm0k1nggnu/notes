@@ -62,6 +62,24 @@ class App extends Component {
 
   addNewNote = (event, id) => {
     console.log(event.target.value)
+    let newNote = {id: 3, content: '', dateAdded: '01-01-2019'};
+    newNote = {
+      content: event.target.value
+    };
+    console.dir(newNote)
+    const newNotes = [
+      newNote,
+      ...this.state.notes
+    ]
+    console.dir(newNotes)
+    this.setState(
+      {notes: newNotes}
+    )
+  }
+
+  deleteNote = (event, id) => {
+    console.log(event.target.value)
+
   }
 
   selectNoteHandler = (index) => {
@@ -93,7 +111,7 @@ class App extends Component {
         { notes }
         </div>
         <div className="Note">
-          <h2>{ this.state.notes[this.state.showNote].title }</h2>
+          <h2>{ this.state.notes[this.state.showNote].title }</h2><button onClick={(event) => this.deleteNote(event)}>delete</button>
           <p>{ this.state.notes[this.state.showNote].content }</p>
         </div>
         <AddNote
