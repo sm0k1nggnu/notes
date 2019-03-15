@@ -12,7 +12,7 @@ class App extends Component {
       {id: 3,name: "Maria", age: 37}
     ],
     notes : [
-      {id: 1, title: 'A note', content: 'Lorem Ipsum', dateAdded: '01-01-2019'},
+      {id: 1, title: 'A note', content: 'Lorem Ipsumasd asd sadas dasdasdas adasdas', dateAdded: '01-01-2019'},
       {id: 2, title: 'Another note', content: 'Lorem Ipsum Foo', dateAdded: '01-01-2019'}
     ],
     showNote: 0
@@ -60,9 +60,8 @@ class App extends Component {
       {persons : persons})
   }
 
-  togglePersonsHandler = () => {
-    const doesShow = this.state.showPersons;
-    this.setState({showPersons: !doesShow})
+  addNewNote = (event, id) => {
+    console.log(event.target.value)
   }
 
   selectNoteHandler = (index) => {
@@ -71,76 +70,35 @@ class App extends Component {
   }
 
   render() {
-    const style = {
-      backgroundColor: 'white',
-      border: '1px solid blue'
-    }
-    let persons = null;
 
-    if(this.state.showPersons === true) {
-      persons =  (
-        <div>
-          {this.state.persons.map((person, index) => {
-            return <Person
-            name={person.name}
-            age={person.age}
-            key={person.id}
-            click={() => this.removePersonHandler(index)}
-            changed={(event) => this.nameChangedHandler(event, person.id)}
-            />
-          })}
-      </div>
-      )
-    } else {
-      persons = null;
-    }
     let notes = null;
     notes =  (
       <div>
         {this.state.notes.map((note, index) => {
+          let cn = (this.state.showNote === index) ? 'active' : '';
           return <Note
+            active={ cn }
             title={ note.title }
             content={ note.content }
-            date={ note.date }
+            date={ note.dateAdded }
             click={() => this.selectNoteHandler(index)}
             />
         })}
     </div>
     )
 
-    // let classes = ['red', 'bold'].join(' ');
-    let classes = [];
-    if(this.state.persons.length <= 2) {
-      classes.push('red')
-    }
-    if(this.state.persons.length <= 1) {
-      classes.push('bold')
-    }
-
     return (
       <div className="App">
         <div className="NotesList">
         { notes }
         </div>
-{/* if add note, show textfield right, add note to top on left in real time
-else top current note is displayed in full
-*/}
         <div className="Note">
-          { this.state.showNote }
           <h2>{ this.state.notes[this.state.showNote].title }</h2>
           <p>{ this.state.notes[this.state.showNote].content }</p>
         </div>
         <AddNote
-          changed={(event) => this.nameChangedHandler(event)}
+          changed={(event) => this.addNewNote(event)}
         />
-      {/* <button
-        style={style}
-        onClick={this.togglePersonsHandler}>Toggle Persons</button>
-
-
-          { persons }
-
-      <p className={classes.join(' ')}>sdfdsfds</p> */}
       </div>
     );
   }
