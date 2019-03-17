@@ -1,0 +1,7 @@
+.AddNote {
+    width: 98%;
+    border: 1px solid grey;
+    margin: 0 0 2px 0;
+    cursor: pointer;
+    min-height: 80px;
+}
