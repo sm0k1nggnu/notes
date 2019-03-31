@@ -33,7 +33,7 @@ class App extends Component {
   }
 
   addNewNote = (event, id) => {
-    //console.log(event.target.value)
+    console.log(event.target.value)
     // let noteId = this.state.lastNoteId++;
     // let newNote = {id: noteId, content: '', dateAdded: '01-01-2019'};
     // newNote = {
@@ -51,25 +51,22 @@ class App extends Component {
   }
 
   saveNewNote = (event, id) => {
-    let noteId = this.state.lastNoteId++;
-    let newNote = {id: noteId, content: '', dateAdded: '01-01-2019'};
-    newNote = {
-      content: event.target.value
-    };
-    console.dir(newNote)
-    const newNotes = [
-      newNote,
-      ...this.state.notes
-    ]
-    console.dir(newNotes)
-    this.setState(
-      {notes: newNotes}
-    )
+    console.log('saved')
+    // let noteId = this.state.lastNoteId++;
+    // let newNote = {id: noteId, content: '', dateAdded: '01-01-2019'};
+    // newNote = {
+    //   content: event.target.value
+    // };
+    // const newNotes = [
+    //   newNote,
+    //   ...this.state.notes
+    // ]
+    // this.setState(
+    //   {notes: newNotes}
+    // )
   }
 
   deleteNote = (event, id) => {
-    console.log(event.target.value)
-    //alert(index)
     const notes =  [...this.state.notes];
     notes.splice(id, 1)
     this.setState(
@@ -92,6 +89,7 @@ class App extends Component {
           {this.state.notes.map((note, index) => {
             let cn = (this.state.showNote === index) ? 'active' : '';
             return <Note
+              key={ index }
               active={ cn }
               title={ note.title }
               content={ note.content }
@@ -105,8 +103,11 @@ class App extends Component {
     if(this.state.notes.length > 0) {
       note = (
         <div className="Note">
-        {  this.state.lastNoteId}
-          <h2>{ this.state.notes[this.state.showNote].title }</h2><button onClick={(event) => this.deleteNote(event, this.state.showNote)}>delete</button>
+          { this.state.lastNoteId }
+          <h2>{ this.state.notes[this.state.showNote].title }</h2>
+          <button
+            onClick={(event) => this.deleteNote(event, this.state.showNote)}>delete
+          </button>
           <p>{ this.state.notes[this.state.showNote].content }</p>
         </div>
         )
