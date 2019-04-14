@@ -1,132 +1,97 @@
 import React, { Component } from 'react';
-// import Person from './Person/Person';
+import { connect } from 'react-redux';
 import Note from './Note/Note';
 import AddNote from './AddNote/AddNote';
 import './App.css';
 
 class App extends Component {
   state = {
-    notes : [
-      {id: 1, title: 'A note', content: 'Lorem Ipsumasd asd sadas dasdasdas adasdas', dateAdded: '01-01-2019'},
-      {id: 2, title: 'Another note', content: 'Lorem Ipsum Foo', dateAdded: '01-01-2019'}
-    ],
     showNote: 0,
     lastNoteId: 2
   }
 
-  nameChangedHandler = (event, id) => {
-    console.log('changed' + event)
-    //let newpersons = [{name: "Blanas", age:17}, ...this.state.persons]
-    const personIndex = this.state.persons.findIndex(p => {
-      return p.id === id
-    } )
-
-    const person = {
-      ...this.state.persons[personIndex]
-    }
-
-    person.name = event.target.value;
-    const persons = [...this.state.persons]
-    persons[personIndex] = person;
-    this.setState(
-      {persons : persons})
-  }
-
-  addNewNote = (event, id) => {
-    console.log(event.target.value)
-    // let noteId = this.state.lastNoteId++;
-    // let newNote = {id: noteId, content: '', dateAdded: '01-01-2019'};
-    // newNote = {
-    //   content: event.target.value
-    // };
-    // console.dir(newNote)
-    // const newNotes = [
-    //   newNote,
-    //   ...this.state.notes
-    // ]
-    // console.dir(newNotes)
-    // this.setState(
-    //   {notes: newNotes}
-    // )
-  }
-
-  saveNewNote = (event, id) => {
-    console.log('saved')
-    // let noteId = this.state.lastNoteId++;
-    // let newNote = {id: noteId, content: '', dateAdded: '01-01-2019'};
-    // newNote = {
-    //   content: event.target.value
-    // };
-    // const newNotes = [
-    //   newNote,
-    //   ...this.state.notes
-    // ]
-    // this.setState(
-    //   {notes: newNotes}
-    // )
-  }
-
-  deleteNote = (event, id) => {
-    const notes =  [...this.state.notes];
-    notes.splice(id, 1)
-    this.setState(
-      {notes : [
-        ...notes
-    ]})
-  }
-
   selectNoteHandler = (index) => {
     //alert(index)
-    this.setState({showNote: index});
+    let id = this.props.storedNotes[index].id
+    console.log("select note handler" + id)
+    this.setState({showNote: id});
   }
 
   render() {
     let notes = null;
-    let note = null;
-    if(this.state.notes.length > 0) {
+    if(this.props.storedNotes) {
       notes =  (
         <div>
-          {this.state.notes.map((note, index) => {
-            let cn = (this.state.showNote === index) ? 'active' : '';
+          {this.props.storedNotes.map((note, index) => {
+            let cn = (this.props.showNote === index) ? 'active' : '';
             return <Note
               key={ index }
               active={ cn }
               title={ note.title }
               content={ note.content }
-              date={ note.dateAdded }
-              click={() => this.selectNoteHandler(index)}
+              //date={ note.id }
+              click={() => this.props.onSelectNote({id: note.id})}
               />
           })}
       </div>
       )
+    } else {
+      notes = (
+        <p>No Notes</p>
+      )
     }
-    if(this.state.notes.length > 0) {
+    //single note
+    let note = null;
+    let noteId = null;
+    if(this.props.storedNotes.length > 0) {
+      noteId = this.props.storedNotes.length-1;//this.props.storedNotes.findIndex(note => note.id === this.props.showNote);
+
+    if(this.props.showNote !== null) {
+        noteId = this.props.storedNotes.findIndex(note => note.id === this.props.showNote)
+      }
+      //console.log("note id index" + noteId + "shownote " +  this.props.showNote)
       note = (
-        <div className="Note">
-          { this.state.lastNoteId }
-          <h2>{ this.state.notes[this.state.showNote].title }</h2>
+        <div className="Note" key={ noteId }>{ noteId }
+          <h2>{ this.props.storedNotes[noteId].title }</h2>
           <button
-            onClick={(event) => this.deleteNote(event, this.state.showNote)}>delete
+            onClick={() => this.props.onDeleteNote({id: this.props.showNote})}>delete
           </button>
-          <p>{ this.state.notes[this.state.showNote].content }</p>
+          <p>{ this.props.storedNotes[noteId].content }</p>
         </div>
         )
+      } else {
+        note = (<p></p>)
       }
 
     return (
       <div className="App">
         <div className="NotesList">
-        <AddNote
-          changed={(event) => this.addNewNote(event)}
-          save={(event) => this.saveNewNote(event)}
-        />
+          <AddNote
+            changed={(event) => this.addNewNote(event)}
+            save={(event) => this.saveNewNote(event)}
+            clicked={this.props.onAddNote}
+          />
          { notes }
         </div>
          { note }
-
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+      storedNotes: state.notes,
+      showNote: state.showNote,
+      lastNoteId: state.lastNoteId
+  };
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+      onDeleteNote: (event) => dispatch({type: 'DELETE_NOTE', noteId: event.id}),
+      onSelectNote: (event) => dispatch({type: 'SELECT_NOTE', noteId: event.id})
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -1,39 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import './AddNote.css';
 
 // const addnote = (props) => {
 class AddNote extends Component {
     state = {
-        lastNoteId : 4,
-        content: '',
-        title: '',
         notes : [
-            {id:5, title: '',content: ''}
+            {title: '',content: ''}
         ]
     }
-
-    postDataHandler = (e) => {
-        console.log("postdatahandler")
-        console.log(this.state.title)
-        console.log(this.state.content)
-        // const data = {
-        //     title: this.state.title,
-        //     body: this.state.content
-        // }
-        let noteId = this.state.lastNoteId++;
-        let newNote = {id: noteId, content: '', dateAdded: '01-01-2019'};
-        newNote = {
-          content: this.state.content
-        };
-        const newNotes = [
-          newNote,
-          ...this.state.notes
-        ]
-        this.setState(
-          {notes: newNotes}
-        )
-    }
-
      render() {
         return (
             <div className="AddNote">
@@ -52,7 +27,8 @@ class AddNote extends Component {
                 >
                 </textarea>
                 <button
-                    onClick={(event) => this.postDataHandler(event)}
+                    // onClick={(event) => this.postDataHandler(event)}
+                    onClick={(event) => this.props.onAddNote({title: this.state.title, content: this.state.content})}
                     className="AddNote__Save"
                 >save</button>
             </div>
@@ -60,4 +36,16 @@ class AddNote extends Component {
     }
 }
 
-export default AddNote;
+const mapStateToProps = state => {
+    return {
+        storedNotes: state.notes
+    };
+  }
+
+  const mapDispatchToProps = dispatch => {
+    return {
+        onAddNote: (event) => dispatch({type: 'ADD_NOTE', title: event.title, content: event.content}),
+    };
+  }
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddNote);
