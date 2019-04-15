@@ -5,7 +5,6 @@ const note = (props) => {
     let classes = [];
     classes.push('Note');
     props.active ? classes.push(props.active) : classes.push('')
-    console.table(props)
     return (
         <div
             className={classes.join(' ')}

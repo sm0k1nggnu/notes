@@ -11,9 +11,7 @@ class App extends Component {
   }
 
   selectNoteHandler = (index) => {
-    //alert(index)
     let id = this.props.storedNotes[index].id
-    console.log("select note handler" + id)
     this.setState({showNote: id});
   }
 
@@ -23,7 +21,7 @@ class App extends Component {
       notes =  (
         <div>
           {this.props.storedNotes.map((note, index) => {
-            let cn = (this.props.showNote === index) ? 'active' : '';
+            let cn = (this.props.showNote === note.id) ? 'active' : '';
             return <Note
               key={ index }
               active={ cn }

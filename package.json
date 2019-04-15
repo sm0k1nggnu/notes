@@ -2,6 +2,7 @@
   "name": "reactnotes2",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://sm0k1nggnu.github.io/notes",
   "dependencies": {
     "radium": "^0.25.1",
     "react": "^16.8.3",
@@ -25,5 +26,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "gh-pages": "^2.0.1"
+  }
 }
