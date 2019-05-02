@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Note from './Note/Note';
 import AddNote from './AddNote/AddNote';
 import './App.css';
-
+// test
 class App extends Component {
   state = {
     showNote: 0,
