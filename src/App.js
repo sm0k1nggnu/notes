@@ -1,3 +1,4 @@
+// TODO add note as popup
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Note from './Note/Note';
@@ -42,16 +43,16 @@ class App extends Component {
     let note = null;
     let noteId = null;
     if(this.props.storedNotes.length > 0) {
-      noteId = this.props.storedNotes.length-1;//this.props.storedNotes.findIndex(note => note.id === this.props.showNote);
+      noteId = this.props.storedNotes.length-1;
 
     if(this.props.showNote !== null) {
         noteId = this.props.storedNotes.findIndex(note => note.id === this.props.showNote)
       }
-      //console.log("note id index" + noteId + "shownote " +  this.props.showNote)
       note = (
-        <div className="Note" key={ noteId }>{ noteId }
-          <h2>{ this.props.storedNotes[noteId].title }</h2>
+        <div className="Note" key={ noteId }>
+          <h2 className="NoteTitle">{ this.props.storedNotes[noteId].title }</h2>
           <button
+            className="DeleteNote"
             onClick={() => this.props.onDeleteNote({id: this.props.showNote})}>delete
           </button>
           <p>{ this.props.storedNotes[noteId].content }</p>
@@ -63,15 +64,20 @@ class App extends Component {
 
     return (
       <div className="App">
-        <div className="NotesList">
-          <AddNote
-            changed={(event) => this.addNewNote(event)}
-            save={(event) => this.saveNewNote(event)}
-            clicked={this.props.onAddNote}
-          />
-         { notes }
+        <header>
+          <h1>Take A Note</h1>
+        </header>
+        <div class="NotesArea">
+          <div className="NotesList">
+            <AddNote
+              changed={(event) => this.addNewNote(event)}
+              save={(event) => this.saveNewNote(event)}
+              clicked={this.props.onAddNote}
+            />
+          { notes }
+          </div>
+          { note }
         </div>
-         { note }
       </div>
     );
   }
