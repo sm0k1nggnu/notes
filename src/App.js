@@ -19,7 +19,7 @@ class App extends Component {
     let notes = null;
     if(this.props.storedNotes) {
       notes =  (
-        <div>
+        <tbody>
           {this.props.storedNotes.map((note, index) => {
             let cn = (this.props.showNote === note.id) ? 'active' : '';
             return <Note
@@ -27,11 +27,10 @@ class App extends Component {
               active={ cn }
               title={ note.title }
               content={ note.content }
-              //date={ note.id }
               click={() => this.props.onSelectNote({id: note.id})}
               />
           })}
-      </div>
+      </tbody>
       )
     } else {
       notes = (
@@ -42,12 +41,11 @@ class App extends Component {
     let note = null;
     let noteId = null;
     if(this.props.storedNotes.length > 0) {
-      noteId = this.props.storedNotes.length-1;//this.props.storedNotes.findIndex(note => note.id === this.props.showNote);
+      noteId = this.props.storedNotes.length-1;
 
     if(this.props.showNote !== null) {
         noteId = this.props.storedNotes.findIndex(note => note.id === this.props.showNote)
       }
-      //console.log("note id index" + noteId + "shownote " +  this.props.showNote)
       note = (
         <div className="Note" key={ noteId }>{ noteId }
           <h2>{ this.props.storedNotes[noteId].title }</h2>
@@ -62,15 +60,22 @@ class App extends Component {
       }
 
     return (
-      <div className="App">
-        <div className="NotesList">
-          <AddNote
+      <div className="App container">
+        <table className="NotesList">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Note</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+         { notes }
+        </table>
+        <AddNote
             changed={(event) => this.addNewNote(event)}
             save={(event) => this.saveNewNote(event)}
             clicked={this.props.onAddNote}
           />
-         { notes }
-        </div>
          { note }
       </div>
     );
