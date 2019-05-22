@@ -1,3 +1,4 @@
+// TODO add note as popup
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Note from './Note/Note';
@@ -47,9 +48,10 @@ class App extends Component {
         noteId = this.props.storedNotes.findIndex(note => note.id === this.props.showNote)
       }
       note = (
-        <div className="Note" key={ noteId }>{ noteId }
-          <h2>{ this.props.storedNotes[noteId].title }</h2>
+        <div className="Note" key={ noteId }>
+          <h2 className="NoteTitle">{ this.props.storedNotes[noteId].title }</h2>
           <button
+            className="DeleteNote"
             onClick={() => this.props.onDeleteNote({id: this.props.showNote})}>delete
           </button>
           <p>{ this.props.storedNotes[noteId].content }</p>
