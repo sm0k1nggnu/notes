@@ -3,13 +3,13 @@ import TableHeader from "./TableHeader";
 //import TableBody from "./TableBody";
 
 const TableBody = props => {
-  const rows = props.characterData.map((row, index) => {
+  const rows = props.noteData.map((row, index) => {
     return (
       <tr key={index}>
-        <td>{row.name}</td>
-        <td>{row.job}</td>
+        <td>{row.title}</td>
+        <td>{row.note}</td>
         <td>
-          <button onClick={() => props.removeCharacter(index)}>Delete</button>
+          <button onClick={() => props.removeNote(index)}>Delete</button>
         </td>
       </tr>
     );
@@ -20,14 +20,11 @@ const TableBody = props => {
 
 class Table extends Component {
   render() {
-    const { characterData, removeCharacter } = this.props;
+    const { noteData, removeNote } = this.props;
     return (
       <table>
         <TableHeader />
-        <TableBody
-          characterData={characterData}
-          removeCharacter={removeCharacter}
-        />
+        <TableBody noteData={noteData} removeNote={removeNote} />
       </table>
     );
   }
