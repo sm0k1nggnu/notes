@@ -17,7 +17,9 @@ class Form extends Component {
       [name]: value
     });
   };
-  submitForm = () => {
+  onFormSubmit = (event) => {
+    event.preventDefault();
+
     this.props.handleSubmit(this.state);
     this.setState(this.initialState);
   };
@@ -25,7 +27,7 @@ class Form extends Component {
     const { title, note } = this.state;
 
     return (
-      <form>
+      <form onSubmit={this.onFormSubmit}>
         <label>Title</label>
         <input
           type="text"
