@@ -1,11 +1,37 @@
-import React from 'react';
-import Notes from './Notes/Notes';
-import './App.css';
+import React, { Component } from "react";
+import Table from "./Table";
+import Form from "./Form";
+import { throwStatement } from "@babel/types";
 
-function App() {
-  return (
-    <Notes />
-  );
+const title = "notes";
+
+class App extends Component {
+  state = {
+    notes: []
+  };
+  removeNote = index => {
+    const { notes } = this.state;
+
+    this.setState({
+      notes: notes.filter((note, i) => {
+        return i !== index;
+      })
+    });
+  };
+
+  handleSubmit = note => {
+    console.log(note)
+    this.setState({ notes: [...this.state.notes, note] });
+  };
+  render() {
+    return (
+      <div className="App">
+        <h1> Hello, {title} </h1>
+        <Table noteData={this.state.notes} removeNote={this.removeNote} />
+        <Form handleSubmit={this.handleSubmit} />
+      </div>
+    );
+  }
 }
 
 export default App;
